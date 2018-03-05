@@ -1,9 +1,9 @@
 class TreeNode<T> {
   data: T;
-  left: TreeNode<T>;
-  right: TreeNode<T>;
+  left: TreeNode<T> | undefined;
+  right: TreeNode<T> | undefined;
 
-  constructor(data?: T) {
+  constructor(data: T) {
     this.data = data;
     this.left = undefined;
     this.right = undefined;
@@ -11,7 +11,7 @@ class TreeNode<T> {
 }
 
 export class BinarySearchTree<T> {
-  root: TreeNode<T>;
+  root: TreeNode<T> | undefined;
   size: number;
 
   constructor() {
@@ -20,7 +20,7 @@ export class BinarySearchTree<T> {
   }
 
   insert(value: T) {
-    if (this.root === undefined) {
+    if (this.root == undefined) {
       this.root = new TreeNode(value);
     } else {
       let currentNode = this.root;
