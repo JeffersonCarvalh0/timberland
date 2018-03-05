@@ -1,7 +1,13 @@
 import { BinarySearchTree } from '../../BinarySearchTree';
 
-function refreshScreen() {
+let tree = new BinarySearchTree<number>();
 
+function refreshScreen() {
+  // Refresh the node counter
+  let sizeElement = <HTMLElement>document.getElementById('treeSize');
+  sizeElement.innerHTML = tree.size.toString();
+
+  // Refresh the tree
 }
 
 function insert(value: number) {
@@ -9,16 +15,4 @@ function insert(value: number) {
   refreshScreen();
 }
 
-function main() {
-  let sizeParagraph = document.createElement("P");
-  let sizeText = document.createTextNode(`Current size: ${treeSize}`);
-
-  sizeParagraph.appendChild(sizeText);
-  documentBody.appendChild(sizeParagraph)
-}
-
-let tree = new BinarySearchTree<number>();
-let treeSize = tree.size;
-let documentBody = document.body;
-
-main();
+refreshScreen();
