@@ -44,4 +44,19 @@ export class BinarySearchTree<T> {
     }
     ++this.size;
   }
+
+  find (value: T): boolean {
+    let curNode = this.root;
+    while (curNode) {
+      if (value === curNode.data)
+        return true;
+      else {
+        if (value < curNode.data)
+          curNode = curNode.left;
+        else
+          curNode = curNode.right;
+      }
+    }
+    return false;
+  }
 }
