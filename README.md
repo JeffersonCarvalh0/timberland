@@ -10,9 +10,9 @@ the necessary dependencies.
 
 ## Running the demos
 
-To run a demo, `cd` into its folder and run `npx webpack` to compile and bundle the
-code. Open the `html` file located in `dist` folder of the demo with your desired
-web browser.
+To run a demo, `cd` into the data structure folder and run `npx webpack` to
+compile and bundle the code. Open the `html` file located in `dist` folder of
+the demo with your desired web browser.
 
 # License
 
