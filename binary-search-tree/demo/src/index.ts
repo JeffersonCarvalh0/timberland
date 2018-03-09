@@ -9,10 +9,9 @@ function refreshScreen() {
   sizeElement.innerHTML = tree.getSize().toString();
 
   // Refresh the tree representation
-  let values = tree.inorderValues();
   let valuesText = [];
 
-  for (let value of values)
+  for (let value of tree.valuesGen())
     valuesText.push(value.toString());
 
   treeRepr.innerHTML = valuesText.join(' ');
