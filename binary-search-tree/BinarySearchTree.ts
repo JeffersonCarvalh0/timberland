@@ -40,15 +40,24 @@ class TreeNode<T> {
 
 export class BinarySearchTree<T> {
   /* The main class */
-  root: TreeNode<T> | undefined;
-  size: number;
+  private root: TreeNode<T> | undefined;
+  private size: number;
 
   constructor() {
     this.root = undefined;
     this.size = 0;
   }
 
-  inorderValues (): T[] {
+  getSize(): number {
+    return this.size;
+  }
+
+  clear() {
+    this.root = undefined;
+    this.size = 0;
+  }
+
+  inorderValues(): T[] {
     /* Returns a list with the values stored in the tree in crescent order.
     It's done by implementing Morris Inorder Tree Traversal Algorithm. */
 

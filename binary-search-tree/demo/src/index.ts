@@ -6,7 +6,7 @@ let treeRepr = <HTMLElement>document.getElementById('treeRepr');
 let sizeElement = <HTMLElement>document.getElementById('treeSize');
 function refreshScreen() {
   // Refresh the node counter
-  sizeElement.innerHTML = tree.size.toString();
+  sizeElement.innerHTML = tree.getSize().toString();
 
   // Refresh the tree representation
   let values = tree.inorderValues();
@@ -22,6 +22,12 @@ let insertButton = <HTMLElement>document.getElementById('insertButton');
 let input = <HTMLInputElement>document.getElementById('newValueField');
 insertButton.onclick = function () {
   tree.insert(parseInt(input.value));
+  refreshScreen();
+}
+
+let clearButton = <HTMLElement>document.getElementById('clearButton');
+clearButton.onclick = function() {
+  tree.clear();
   refreshScreen();
 }
 
