@@ -85,14 +85,14 @@ describe('Testing BinarySearchTree class', function(){
     });
   });
 
-  // describe('count', function() {
-  //   it('Should count how many elements of that value are in the tree', function() {
-  //     let n = tree.count(7);
-  //     assert.equal(n, 3, `expected to find 0 3 times, found ${n} times`);
-  //     n = tree.count(33);
-  //     assert.equal(n, 0, `expected to find 33 0 times, found ${n} times`);
-  //   });
-  // });
+  describe('count', function() {
+    it('Should count how many elements of that value are in the tree', function() {
+      let n = tree.count(7);
+      assert.equal(n, 3, `expected to find 0 3 times, found ${n} times`);
+      n = tree.count(33);
+      assert.equal(n, 0, `expected to find 33 0 times, found ${n} times`);
+    });
+  });
 
   describe('clear', function() {
     describe('The tree must be clear after the function call', function() {

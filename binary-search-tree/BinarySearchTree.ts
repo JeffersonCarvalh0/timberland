@@ -57,10 +57,16 @@ export class BinarySearchTree<T> {
     this.size = 0;
   }
 
-  // count(): number {
-  //   let n = 0;
-  //
-  // }
+  count(n: number): number {
+    let times = 0;
+    for (let value of this.valuesGen()) {
+      if (value > n)
+        break;
+      if (value === n)
+        ++times;
+    }
+    return times;
+  }
 
   *valuesGen() {
     /* Yields an element stored in the tree in crescent order at each iteration.
