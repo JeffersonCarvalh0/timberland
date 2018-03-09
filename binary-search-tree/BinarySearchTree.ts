@@ -77,7 +77,7 @@ export class BinarySearchTree<T> {
   }
 
   insert(value: T) {
-    let newNode = new TreeNode(value);
+    let newNode = new TreeNode<T>(value);
     if (!this.root) {
       this.root = newNode;
     } else {

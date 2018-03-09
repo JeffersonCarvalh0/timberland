@@ -17,7 +17,7 @@
     "webpack-cli": "^2.0.10"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha -r ts-node/register **/*.spec.ts --recursive"
   },
   "repository": {
     "type": "git",
