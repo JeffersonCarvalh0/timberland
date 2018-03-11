@@ -17,6 +17,7 @@
     "webpack-cli": "^2.0.10"
   },
   "scripts": {
+    "build-bst": "webpack --config ./binary-search-tree/webpack.config.js",
     "test": "mocha -r ts-node/register **/*.spec.ts --recursive"
   },
   "repository": {
