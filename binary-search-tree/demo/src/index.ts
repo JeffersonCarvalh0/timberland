@@ -24,6 +24,12 @@ insertButton.onclick = function () {
   refreshScreen();
 }
 
+let removeButton = <HTMLElement>document.getElementById('removeButton');
+removeButton.onclick = function() {
+  tree.remove(parseInt(input.value));
+  refreshScreen();
+}
+
 let clearButton = <HTMLElement>document.getElementById('clearButton');
 clearButton.onclick = function() {
   tree.clear();

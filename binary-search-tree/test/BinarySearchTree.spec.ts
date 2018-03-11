@@ -94,6 +94,25 @@ describe('Testing BinarySearchTree class', function(){
     });
   });
 
+  describe('remove', function() {
+    it('Should remove an element with the specified value', function() {
+      let n = tree.getSize();
+      tree.remove(-3);
+      assert.equal(tree.count(-3), 1, 'The element was not removed.');
+      assert.equal(tree.getSize(), n - 1, "The tree's size is wrong.");
+    });
+
+    it('Should remove an element that is not repeated', function() {
+      tree.remove(59);
+      assert.equal(tree.find(59), false, 'The element still is in the tree.');
+    });
+
+    it('Should return false if the element to be removed is not in the tree', function() {
+      let ret = tree.remove(123456);
+      assert.equal(ret, false);
+    });
+  });
+
   describe('clear', function() {
     describe('The tree must be clear after the function call', function() {
       it('Its size must be zero', function() {
