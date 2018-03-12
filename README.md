@@ -12,8 +12,8 @@ the necessary dependencies.
 
 To run a demo, execute `build-<name-of-the-structure>` from the terminal to
 compile, test and bundle the code. Open the `html` file located in `dist`
-folder of the demo with your desired web browser.
+folder of the demo with your favorite web browser.
 
 # License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE.md) file for details.
