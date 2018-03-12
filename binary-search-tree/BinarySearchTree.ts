@@ -81,22 +81,35 @@ export class BinarySearchTree<T> {
     return times;
   }
 
-  *valuesGen() {
-    /* Yields an element stored in the tree in crescent order at each iteration.
-    It's done by implementing Morris Inorder Tree Traversal Algorithm. */
+  valuesGen() {
+    function *helper(curNode: TreeNode<T> | undefined): any {
+      if (curNode) {
+        yield *helper(curNode.left);
+        yield curNode.data;
+        yield *helper(curNode.right);
+      }
+    }
+    return helper(this.root);
+  }
+
+  valuesList(): T[] {
+    /* Returns a list of elements stored in the tree in crescent order at each
+    iteration. It's done by implementing Morris Inorder Tree Traversal Algorithm. */
+
+    let values = [];
 
     let curNode = this.root;
 
     while (curNode) {
       if (!curNode.left) {
-        yield curNode.data;
+        values.push(curNode.data);
         curNode = curNode.right;
       } else {
         let pre = curNode.left;
         while (pre.right && pre.right !== curNode)
           pre = pre.right;
         if (pre.right == curNode) {
-          yield curNode.data;
+          values.push(curNode.data);
           pre.right = undefined;
           curNode = curNode.right;
         } else {
@@ -105,13 +118,6 @@ export class BinarySearchTree<T> {
         }
       }
     }
-  }
-
-  valuesList(): T[] {
-    let values = [];
-
-    for (let value of this.valuesGen())
-      values.push(value);
     return values;
   }
 
