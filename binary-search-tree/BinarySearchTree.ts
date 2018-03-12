@@ -40,21 +40,66 @@ class TreeNode<T> {
 
 export class BinarySearchTree<T> {
   /* The main class */
-  root: TreeNode<T> | undefined;
-  size: number;
+  private root: TreeNode<T> | undefined;
+  private size: number;
 
   constructor() {
     this.root = undefined;
     this.size = 0;
   }
 
-  inorderValues (): T[] {
-    /* Returns a list with the values stored in the tree in crescent order.
-    It's done by implementing Morris Inorder Tree Traversal Algorithm. */
+  getSize(): number {
+    return this.size;
+  }
 
-    let values: T[] = []
+  clear() {
+    this.root = undefined;
+    this.size = 0;
+  }
+
+  count(n: T): number {
+    let times = 0;
+    let value: T & NodeData<T>;
+
+    for (let value of this.valuesGen()) {
+      if (value.greaterThan) {
+        if(value.greaterThan(n))
+          break;
+      } else {
+        if (value > n)
+          break;
+      }
+
+      if (value.equals) {
+        if(value.equals(n))
+          ++times;
+      } else {
+        if (value === n)
+          ++times;
+      }
+    }
+    return times;
+  }
+
+  valuesGen() {
+    function *helper(curNode: TreeNode<T> | undefined): any {
+      if (curNode) {
+        yield *helper(curNode.left);
+        yield curNode.data;
+        yield *helper(curNode.right);
+      }
+    }
+    return helper(this.root);
+  }
+
+  valuesList(): T[] {
+    /* Returns a list of elements stored in the tree in crescent order at each
+    iteration. It's done by implementing Morris Inorder Tree Traversal Algorithm. */
+
+    let values = [];
 
     let curNode = this.root;
+
     while (curNode) {
       if (!curNode.left) {
         values.push(curNode.data);
@@ -77,7 +122,8 @@ export class BinarySearchTree<T> {
   }
 
   insert(value: T) {
-    let newNode = new TreeNode(value);
+    let newNode = new TreeNode<T>(value);
+
     if (!this.root) {
       this.root = newNode;
     } else {
@@ -103,18 +149,78 @@ export class BinarySearchTree<T> {
     ++this.size;
   }
 
-  find(value: T): boolean {
+  private findRef(value: T) {
     let seekedValue = new TreeNode(value);
     let curNode = this.root;
+    let curParent: TreeNode<T> | undefined;
+    curParent = undefined;
+
     while (curNode) {
       if (seekedValue.equals(curNode))
-        return true;
+        return [curNode, curParent];
       else {
+        curParent = curNode;
         if (seekedValue.greaterThan(curNode))
           curNode = curNode.right;
         else
           curNode = curNode.left;
       }
+    }
+    return [undefined, undefined];
+  }
+
+  find(value: T): boolean {
+    let found = this.findRef(value)[0];
+    return found ? true : false;
+  }
+
+  remove(value: T): boolean {
+    let curNode: TreeNode<T> | undefined;
+    let parent: TreeNode<T> | undefined;
+    [curNode, parent] = this.findRef(value);
+
+    if (!curNode && !parent)
+      return false;
+
+    if (curNode) {
+      if (!curNode.right && !curNode.left) { // The node to be removed has no children
+        if (parent) {
+          if (curNode.greaterThan)
+            curNode.greaterThan(parent) ? parent.right = undefined : parent.left = undefined;
+        } else
+          this.root = undefined;
+      } else if (!curNode.left || !curNode.right) { // The node to be removed has only one child
+        let child = curNode.left || curNode.right;
+        if (parent) {
+          if (curNode.greaterThan)
+            curNode.greaterThan(parent) ? parent.right = child : parent.left = child;
+        } else
+          this.root = child;
+      } else { // The node to be removed has two children
+        let candidateParent = curNode;
+        let candidate = curNode.left;
+
+        while(candidate.right) { // Find the rightmost node of the left subtree
+          candidateParent = candidate;
+          candidate = candidate.right;
+        }
+
+        if (candidate.left) // If the candidate has a left child
+            candidateParent.left = candidate.left;
+
+        if (curNode.left.equals) {
+          if (!curNode.left.equals(candidate))
+            candidate.left = curNode.left;
+        }
+        candidate.right = curNode.right;
+
+        if (parent)
+          curNode.greaterThan(parent) ? parent.right = candidate : parent.left = candidate;
+        else
+          this.root = candidate;
+      }
+      --this.size;
+      return true;
     }
     return false;
   }

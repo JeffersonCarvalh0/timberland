@@ -1,7 +1,7 @@
 const path = require('path')
 
 module.exports = {
-    entry: path.resolve('demo', 'src', 'index.ts'),
+    entry: path.resolve(__dirname, 'demo', 'src', 'index.ts'),
     module: {
         rules: [
             {
@@ -14,8 +14,9 @@ module.exports = {
     resolve: {
         extensions: ['.tsx', '.ts', '.js']
     },
+    devtool: "eval-source-map",
     output: {
-        path: path.resolve('demo', 'dist'),
+        path: path.resolve(__dirname, 'demo', 'dist'),
         filename: 'bundle.js'
     }
 };
