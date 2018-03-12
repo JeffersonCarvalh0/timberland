@@ -200,9 +200,12 @@ export class BinarySearchTree<T> {
         }
 
         if (candidate.left) // If the candidate has a left child
-          candidateParent.right = candidate.left;
+            candidateParent.left = candidate.left;
 
-        candidate.left = curNode.left;
+        if (curNode.left.equals) {
+          if (!curNode.left.equals(candidate))
+            candidate.left = curNode.left;
+        }
         candidate.right = curNode.right;
 
         if (parent)
@@ -210,6 +213,7 @@ export class BinarySearchTree<T> {
         else
           this.root = candidate;
       }
+      --this.size;
       return true;
     }
     return false;

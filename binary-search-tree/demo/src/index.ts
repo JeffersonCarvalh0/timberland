@@ -37,14 +37,21 @@ clearButton.onclick = function() {
 }
 
 let searchButton = <HTMLElement>document.getElementById('searchButton')
-let searchField = <HTMLInputElement>document.getElementById('searchField');
-searchButton.onclick = function () {
-  let result = tree.find(parseInt(searchField.value));
-  let resultsSpan = <HTMLElement>document.getElementById('searchResults');
+let otherField = <HTMLInputElement>document.getElementById('otherField');
+searchButton.onclick = function() {
+  let result = tree.find(parseInt(otherField.value));
+  let resultsSpan = <HTMLElement>document.getElementById('otherResults');
 
   let text: string;
   text = (result) ? 'Value found' : 'Value not found';
   resultsSpan.innerHTML = text;
+}
+
+let countButton = <HTMLElement>document.getElementById('countButton');
+countButton.onclick = function() {
+  let result = tree.count(parseInt(otherField.value));
+  let resultsSpan = <HTMLElement>document.getElementById('otherResults');
+  resultsSpan.innerHTML = `${result} elements found`;
 }
 
 refreshScreen();
