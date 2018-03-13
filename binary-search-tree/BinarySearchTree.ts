@@ -8,11 +8,13 @@ interface NodeData<T> {
 class TreeNode<T> {
   /* A node used in the tree. */
   data: T & NodeData<T>;
+  amount: number;
   left: TreeNode<T> | undefined;
   right: TreeNode<T> | undefined;
 
   constructor(data: T) {
     this.data = data;
+    this.amount = 1;
     this.left = undefined;
     this.right = undefined;
   }
@@ -57,35 +59,21 @@ export class BinarySearchTree<T> {
     this.size = 0;
   }
 
-  count(n: T): number {
-    let times = 0;
-    let value: T & NodeData<T>;
+  count(value: T): number {
+    let element = this.findRef(value)[0];
 
-    for (let value of this.valuesGen()) {
-      if (value.greaterThan) {
-        if(value.greaterThan(n))
-          break;
-      } else {
-        if (value > n)
-          break;
-      }
-
-      if (value.equals) {
-        if(value.equals(n))
-          ++times;
-      } else {
-        if (value === n)
-          ++times;
-      }
-    }
-    return times;
+    if (element)
+      return element.amount;
+    else
+      return  0;
   }
 
   valuesGen() {
     function *helper(curNode: TreeNode<T> | undefined): any {
       if (curNode) {
         yield *helper(curNode.left);
-        yield curNode.data;
+        for (let i = 0; i < curNode.amount; ++i)
+          yield curNode.data;
         yield *helper(curNode.right);
       }
     }
@@ -97,19 +85,20 @@ export class BinarySearchTree<T> {
     iteration. It's done by implementing Morris Inorder Tree Traversal Algorithm. */
 
     let values = [];
-
     let curNode = this.root;
 
     while (curNode) {
       if (!curNode.left) {
-        values.push(curNode.data);
+        for (let i = 0; i < curNode.amount; ++i)
+          values.push(curNode.data);
         curNode = curNode.right;
       } else {
         let pre = curNode.left;
         while (pre.right && pre.right !== curNode)
           pre = pre.right;
         if (pre.right == curNode) {
-          values.push(curNode.data);
+          for (let i = 0; i < curNode.amount; ++i)
+            values.push(curNode.data);
           pre.right = undefined;
           curNode = curNode.right;
         } else {
@@ -136,6 +125,9 @@ export class BinarySearchTree<T> {
             currentNode.right = newNode;
             break;
           }
+        } else if (newNode.equals(currentNode)) {
+          ++currentNode.amount;
+          break;
         } else {
           if (currentNode.left)
             currentNode = currentNode.left;
@@ -183,7 +175,9 @@ export class BinarySearchTree<T> {
       return false;
 
     if (curNode) {
-      if (!curNode.right && !curNode.left) { // The node to be removed has no children
+      if (curNode.amount > 1)
+        --curNode.amount;
+      else if (!curNode.right && !curNode.left) { // The node to be removed has no children
         if (parent) {
           if (curNode.greaterThan)
             curNode.greaterThan(parent) ? parent.right = undefined : parent.left = undefined;
