@@ -10,8 +10,8 @@ the necessary dependencies.
 
 ## Running the demos
 
-To run a demo, execute `npm run build-<name-of-the-structure>` from the terminal to
-compile, test and bundle the code. Open the `html` file located in `dist`
+To run a demo, `cd` into the project's root execute `npm run build-<name-of-the-structure>`
+from the terminal to compile, test and bundle the code. Open the `html` file located in `dist`
 folder of the demo with your favorite web browser.
 
 # License
