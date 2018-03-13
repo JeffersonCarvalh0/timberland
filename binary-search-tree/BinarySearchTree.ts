@@ -44,10 +44,12 @@ export class BinarySearchTree<T> {
   /* The main class */
   private root: TreeNode<T> | undefined;
   private size: number;
+  private repeated: boolean;
 
-  constructor() {
+  constructor(repeated = false) {
     this.root = undefined;
     this.size = 0;
+    this.repeated = repeated;
   }
 
   getSize(): number {
@@ -110,7 +112,7 @@ export class BinarySearchTree<T> {
     return values;
   }
 
-  insert(value: T) {
+  insert(value: T): boolean {
     let newNode = new TreeNode<T>(value);
 
     if (!this.root) {
@@ -125,9 +127,11 @@ export class BinarySearchTree<T> {
             currentNode.right = newNode;
             break;
           }
-        } else if (newNode.equals(currentNode)) {
+        } else if (newNode.equals(currentNode) && this.repeated) {
           ++currentNode.amount;
           break;
+        } else if(newNode.equals(currentNode) && !this.repeated)  {
+          return false;
         } else {
           if (currentNode.left)
             currentNode = currentNode.left;
@@ -139,6 +143,7 @@ export class BinarySearchTree<T> {
       }
     }
     ++this.size;
+    return true;
   }
 
   private findRef(value: T) {
