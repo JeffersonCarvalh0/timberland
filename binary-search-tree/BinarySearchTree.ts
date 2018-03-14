@@ -1,12 +1,37 @@
+/**
+    This module contains a class to represent a Binary Search Tree.
+  It supports both repeated and non repeated elements: you can set this
+  constraint when creating a new tree object.
+    An important thing to know is that the types you want to use in the tree
+  must implement the [[NodeData]] interface. Otherwise, the tree won't
+  work accordingly.
+  @preferred
+*/
+
+
+/** Interface that is needed to be implemented by user made objects so that the
+tree can work. These methods will be called when necessary to keep the
+increasing order of the tree. */
 interface NodeData<T> {
-  /* Interface that is needed to be implemented by user made objects so that the
-  tree can work. */
+
+  /**
+    @param {T} obj Value to be compared to. Notice that it has to be of the same type of the caller.
+    @returns true if they are equal, false otherwise
+  */
   equals?(obj: T): boolean;
+
+  /**
+    @param {T} obj Value to be compared to. Notice that it has to be of the same type of the caller.
+    @returns true if the caller is greater than obj. false otherwise.
+  */
   greaterThan?(obj: T): boolean;
 }
 
+/**
+  A node used in the tree.
+  @hidden
+*/
 class TreeNode<T> {
-  /* A node used in the tree. */
   data: T & NodeData<T>;
   amount: number;
   left: TreeNode<T> | undefined;
@@ -19,20 +44,18 @@ class TreeNode<T> {
     this.right = undefined;
   }
 
+  /** Checks whether an equals function exists in the object. If it doesnt,
+  tries to use === operator to perform equality check instead. */
   equals(obj: TreeNode<T>): boolean {
-    /* Checks whether an equals function exists in the object. If it doesnt,
-    tries to use === operator to perform equality check instead. */
-
     if (this.data.equals)
       return <boolean>this.data.equals(obj.data);
     else
       return this.data === obj.data;
   }
 
+  /** Checks whether an greaterThan function exists in the object. If it doesnt,
+  tries to use > operator to check if this.data is greater than obj.data */
   greaterThan(obj: TreeNode<T>): boolean {
-    /* Checks whether an greaterThan function exists in the object. If it doesnt,
-    tries to use > operator to check if this.data is greater than obj.data */
-
     if (this.data.greaterThan)
       return <boolean>this.data.greaterThan(obj.data);
     else
@@ -40,27 +63,42 @@ class TreeNode<T> {
   }
 }
 
+/** The Binary Search Tree class. It is a generic class, so it is supposed to
+support user defined types. However, in order to the class work properly, it
+is necessary that the given type implements the [[NodeData]] interface. */
 export class BinarySearchTree<T> {
-  /* The main class */
   private root: TreeNode<T> | undefined;
   private size: number;
   private repeated: boolean;
 
+  /**
+    @param {boolean} repeated true if you want the tree to allow repeated elements. By default it is false.
+  */
   constructor(repeated = false) {
     this.root = undefined;
     this.size = 0;
     this.repeated = repeated;
   }
 
+  /**
+    @returns The amount of elements stored in the tree.
+  */
   getSize(): number {
     return this.size;
   }
 
+  /**
+    Clear the tree. It will loose reference to every node that had been stored.
+  */
   clear() {
     this.root = undefined;
     this.size = 0;
   }
 
+  /**
+    @param {T} value The value that you want to count in the tree.
+    @returns The number of elements that match that value.
+  */
   count(value: T): number {
     let element = this.findRef(value)[0];
 
@@ -70,6 +108,9 @@ export class BinarySearchTree<T> {
       return  0;
   }
 
+  /**
+    A generator that yields the elements of the tree in order.
+  */
   valuesGen() {
     function *helper(curNode: TreeNode<T> | undefined): any {
       if (curNode) {
@@ -82,10 +123,11 @@ export class BinarySearchTree<T> {
     return helper(this.root);
   }
 
+  /**
+    @returns an array of elements stored in the tree in increasing order. It's
+    done by implementing Morris Inorder Tree Traversal Algorithm.
+  */
   valuesList(): T[] {
-    /* Returns a list of elements stored in the tree in crescent order at each
-    iteration. It's done by implementing Morris Inorder Tree Traversal Algorithm. */
-
     let values = [];
     let curNode = this.root;
 
@@ -112,6 +154,10 @@ export class BinarySearchTree<T> {
     return values;
   }
 
+  /**
+    @param {T} value The value to be stored in the tree.
+    @returns true if the element was successfully stored, false otherwise.
+  */
   insert(value: T): boolean {
     let newNode = new TreeNode<T>(value);
 
@@ -166,11 +212,19 @@ export class BinarySearchTree<T> {
     return [undefined, undefined];
   }
 
+  /**
+    @param {T} value The value to be searched.
+    @returns true if the falue was found, false otherwise.
+  */
   find(value: T): boolean {
     let found = this.findRef(value)[0];
     return found ? true : false;
   }
 
+  /**
+    @param {T} value The value to be removed.
+    @returns true if the value was found and removed, false otherwise.
+  */
   remove(value: T): boolean {
     let curNode: TreeNode<T> | undefined;
     let parent: TreeNode<T> | undefined;
