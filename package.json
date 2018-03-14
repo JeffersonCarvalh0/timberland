@@ -12,6 +12,8 @@
     "mocha": "^5.0.4",
     "npm": "^5.7.1",
     "ts-loader": "^4.0.1",
+    "ts-node": "^5.0.1",
+    "typedoc": "^0.11.1",
     "typescript": "^2.7.2",
     "webpack": "^4.1.0",
     "webpack-cli": "^2.0.10"
@@ -20,7 +22,8 @@
     "compile-bst": "tsc -p ./binary-search-tree/tsconfig.json",
     "test-bst": "mocha -r ts-node/register **/*.spec.ts --recursive",
     "pack-bst": "webpack --config ./binary-search-tree/webpack.config.js",
-    "build-bst": "npm run compile-bst && npm run test-bst && npm run pack-bst"
+    "docs-bst": "typedoc --out binary-search-tree/docs/ --tsconfig binary-search-tree/tsconfig.json --excludePrivate --exclude **/**/demo/**/*.ts",
+    "build-bst": "npm run compile-bst && npm run test-bst && npm run docs-bst && npm run pack-bst"
   },
   "repository": {
     "type": "git",
