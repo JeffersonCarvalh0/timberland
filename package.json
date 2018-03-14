@@ -20,10 +20,13 @@
   },
   "scripts": {
     "compile-bst": "tsc -p ./binary-search-tree/tsconfig.json",
-    "test-bst": "mocha -r ts-node/register **/*.spec.ts --recursive",
+    "test-bst": "mocha -r ts-node/register ./binary-search-tree/**/*.spec.ts",
     "pack-bst": "webpack --config ./binary-search-tree/webpack.config.js",
     "docs-bst": "typedoc --out binary-search-tree/docs/ --tsconfig binary-search-tree/tsconfig.json --excludePrivate --exclude **/**/demo/**/*.ts",
-    "build-bst": "npm run compile-bst && npm run test-bst && npm run docs-bst && npm run pack-bst"
+    "build-bst": "npm run compile-bst && npm run test-bst && npm run pack-bst",
+
+    "compile-ntree": "tsc -p ./n-tree/tsconfig.json",
+    "test-ntree": "mocha -r ts-node/register ./n-tree/**/*.spec.ts"
   },
   "repository": {
     "type": "git",
