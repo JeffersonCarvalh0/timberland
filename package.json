@@ -23,7 +23,11 @@
     "test-bst": "mocha -r ts-node/register **/*.spec.ts --recursive",
     "pack-bst": "webpack --config ./binary-search-tree/webpack.config.js",
     "docs-bst": "typedoc --out binary-search-tree/docs/ --tsconfig binary-search-tree/tsconfig.json --excludePrivate --exclude **/**/demo/**/*.ts",
+<<<<<<< HEAD
     "build-bst": "npm run compile-bst && npm run test-bst && npm run pack-bst"
+=======
+    "build-bst": "npm run compile-bst && npm run test-bst && npm run docs-bst && npm run pack-bst"
+>>>>>>> 242662ebfe3e1ab87e10ab51a7f8e94765729392
   },
   "repository": {
     "type": "git",
