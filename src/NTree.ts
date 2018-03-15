@@ -31,8 +31,8 @@ class TreeNode<T> {
     In this tree, sibling nodes should not have repeated values.
 */
 export class NTree<T> {
-  root: TreeNode<T> | undefined;
-  size: number;
+  private root: TreeNode<T> | undefined;
+  private size: number;
 
   constructor() {
     this.root = undefined;

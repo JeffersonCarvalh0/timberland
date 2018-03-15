@@ -23,9 +23,6 @@
     "test": "mocha -r ts-node/register ./test/*.spec.ts",
     "docs": "typedoc --out docs --tsconfig tsconfig.json --excludePrivate",
     "build": "tsc && npm test && webpack",
-
-    "compile-ntree": "tsc -p ./n-tree/tsconfig.json",
-    "test-ntree": "mocha -r ts-node/register ./n-tree/**/*.spec.ts"
   },
   "repository": {
     "type": "git",
