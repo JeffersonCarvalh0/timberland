@@ -2,7 +2,8 @@
   This module contains a class to represent a N-ary tree.
 */
 
-import { BinarySearchTree } from "../binary-search-tree/BinarySearchTree";
+import { BinarySearchTree } from "./BinarySearchTree";
+import { NodeData } from "./NodeData";
 
 /**
   A node used in the tree.
@@ -16,7 +17,7 @@ class TreeNode<T> {
   constructor(data: T) {
     this.data = data;
     this.child = undefined;
-    this.nextSibling = undefined;
+    this.siblings = new BinarySearchTree<TreeNode<T>>();
   }
 
   // equals(obj: T) {

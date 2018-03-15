@@ -1,4 +1,4 @@
-import { NTree } from "../NTree";
+import { NTree } from "../src/NTree";
 import { assert } from "chai";
 import "mocha";
 
