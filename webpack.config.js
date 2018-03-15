@@ -1,7 +1,9 @@
 const path = require('path')
 
 module.exports = {
-    entry: path.resolve(__dirname, 'demo', 'src', 'index.ts'),
+    entry:  {
+        'binary-search-tree': path.resolve(__dirname, 'demos', 'binary-search-tree', 'src', 'index.ts'),
+    },
     module: {
         rules: [
             {
@@ -16,7 +18,7 @@ module.exports = {
     },
     devtool: "eval-source-map",
     output: {
-        path: path.resolve(__dirname, 'demo', 'dist'),
-        filename: 'bundle.js'
+        path: path.resolve(__dirname, 'demos'),
+        filename: '[name]/dist/index.js'
     }
 };

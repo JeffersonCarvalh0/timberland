@@ -1,6 +1,6 @@
-import { BinarySearchTree } from '../../BinarySearchTree';
+import { BinarySearchTree } from '../../../src/BinarySearchTree';
 
-let tree = new BinarySearchTree<number>();
+let tree = new BinarySearchTree<number>(true);
 
 let treeRepr = <HTMLElement>document.getElementById('treeRepr');
 let sizeElement = <HTMLElement>document.getElementById('treeSize');

@@ -1,4 +1,4 @@
-import { BinarySearchTree } from "../BinarySearchTree";
+import { BinarySearchTree } from "../src/BinarySearchTree";
 import { assert } from 'chai';
 import 'mocha';
 
