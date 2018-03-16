@@ -1,13 +1,3 @@
-/**
-    This module contains a class to represent a Binary Search Tree.
-  It supports both repeated and non repeated elements: you can set this
-  constraint when creating a new tree object.
-    An important thing to know is that the types you want to use in the tree
-  must implement the [[NodeData]] interface. Otherwise, the tree won't
-  work accordingly.
-  @preferred
-*/
-
 import { NodeData } from "./NodeData";
 
 /**
