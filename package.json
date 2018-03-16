@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "Some data structures implemented in TypeScript, as exercises to learn the language ",
   "main": "dist/index.js",
-  "types": "dist/index.d.ts",
   "dependencies": {},
   "devDependencies": {
     "@types/chai": "^4.1.2",
@@ -22,11 +21,7 @@
   },
   "scripts": {
     "test": "mocha -r ts-node/register ./test/*.spec.ts",
-    "docs": "typedoc --out docs --tsconfig tsconfig.json --excludePrivate",
-    "build": "tsc && npm test && webpack",
-
-    "compile-ntree": "tsc -p ./n-tree/tsconfig.json",
-    "test-ntree": "mocha -r ts-node/register ./n-tree/**/*.spec.ts"
+    "build": "tsc && npm test && webpack"
   },
   "repository": {
     "type": "git",
