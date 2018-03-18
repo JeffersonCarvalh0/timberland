@@ -51,10 +51,10 @@ export class Trie<T, R> {
       func recieves the object of type T as a parameter and returns the
     index related to it.
   */
-  constructor(arr: T[], func: (obj: T) => number) {
-    this.arr = arr.slice(); // Copy by value
+  constructor(options: number, func: (obj: T) => number) {
+    this.options = options;
     this.size = 0;
-    this.root = new TreeNode<T, R>(this.arr.length);
+    this.root = new TreeNode<T, R>(options);
     this.mapFunction = func;
   }
 

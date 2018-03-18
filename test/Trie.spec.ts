@@ -3,11 +3,9 @@ import { assert } from "chai";
 import "mocha";
 
 describe('Testing Trie class', function() {
-  let alphabet = [];
-  for (let i = 'a'.charCodeAt(); i <= 'z'.charCodeAt(); ++i)
-    alphabet.push(String.fromCharCode(i));
-
-  let trie = new Trie<string, boolean>(alphabet);
+  let trie = new Trie<string, boolean>(26, (char: string) => {
+    return char.charCodeAt() - 'a'.charCodeAt();
+  });
 
   describe('constructor', function() {
     it('Should return a valid Trie object', function() {
