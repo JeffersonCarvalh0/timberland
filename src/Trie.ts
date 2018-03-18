@@ -30,16 +30,16 @@ class TreeNode<R> {
 export class Trie<T, R> {
   private options: number;
   private size: number;
-  private root: TreeNode<T,R>;
+  private root: TreeNode<R>;
   private mapFunction: (obj: T) => number;
 
   /**
-    @param {options} number The number of options each node of the tree will
+    @param {number} options The number of options each node of the tree will
     have. For example, if you are storing words, the number of options will be
     the number of characters available to compose the word. If you consider just
     lowercase characters from the english alphabet, this would be 26.
 
-    @param {func} ((obj: T) => number) A function that directly
+    @param {(obj: T) => number} func A function that directly
     maps each object with an index. If we keep the example of the dictionary,
     this function would map each character with an index corresponding to the
     26 positions of the english alphabet(this could be done using the ASCII
@@ -52,7 +52,7 @@ export class Trie<T, R> {
   constructor(options: number, func: (obj: T) => number) {
     this.options = options;
     this.size = 0;
-    this.root = new TreeNode<T, R>(options);
+    this.root = new TreeNode<R>(options);
     this.mapFunction = func;
   }
 
@@ -64,8 +64,8 @@ export class Trie<T, R> {
   }
 
   /**
-    @param {obj} T[] Object you want to store in the Trie.
-    @param {ret} R The value you want to return when the object is found.
+    @param {T[]} obj Object you want to store in the Trie.
+    @param {R} ret The value you want to return when the object is found.
   */
   insert(obj: T[], ret: R) {
     let curNode = this.root;
@@ -73,14 +73,14 @@ export class Trie<T, R> {
       let index = this.mapFunction(element);
       if (!curNode.arr[index])
         curNode.arr[index] = new TreeNode(this.options);
-      curNode = curNode.arr[index];
+      curNode = <TreeNode<R>>curNode.arr[index];
     }
     curNode.ret = ret;
     ++this.size;
   }
 
   /**
-    @param {obj} T[] The object you want to find in the Trie.
+    @param {T[]} obj The object you want to find in the Trie.
     @returns The value that was stored in insertion if the object was inserted;
     undefined otherwise.
   */
@@ -89,7 +89,7 @@ export class Trie<T, R> {
     for (let element of obj) {
       let index = this.mapFunction(element);
       if (curNode.arr[index])
-        curNode = curNode.arr[index];
+        curNode = <TreeNode<R>>curNode.arr[index];
       else
         return undefined;
     }
