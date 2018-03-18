@@ -8,11 +8,15 @@ Some data structures implemented in TypeScript, as exercises to learn the langua
 After cloning the repository, `cd` into the cloned folder and run `npm i` to grab
 the necessary dependencies.
 
-## Running the demos
+## Building and running the demos
 
-To run a demo, `cd` into the project's root and execute `npm run build-<name-of-the-structure>`
-from the terminal to compile, test and bundle the code. Open the `html` file located in `dist`
-folder of the demo with your favorite web browser.
+In order to build the demos, run `npm build`. To run them, open the `index.html`
+file located in the `dist` directory within the data structure name inside the
+`demos` folder.
+
+## Building an viewing the docs
+
+Run `npx typedoc` to build the demos. They will be built at the `docs` folder.
 
 # License
 
