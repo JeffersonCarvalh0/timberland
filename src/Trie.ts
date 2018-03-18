@@ -1,18 +1,19 @@
 import { NodeData } from "./NodeData";
 
-class TreeNode<T, R> {
-  alts: (TreeNode<T, R> | undefined)[];
+class TreeNode<R> {
+  arr: (TreeNode<R> | undefined)[];
   ret: R | undefined;
 
   /**
-    @param {possibilites} number This is the maximum number of possibilites each
-    node can have
+    @param {possibilites} number The maximum number of possibilites each node
+    can have
+    @param {ret} (R | undefined) The return value of that node
   */
-  constructor(possibilities: number) {
-    this.alts = [];
+  constructor(possibilities: number, ret: (R | undefined) = undefined) {
+    this.arr = [];
     for (let i = 0; i < possibilities; ++i)
-      this.alts.push(undefined);
-    this.ret = undefined;
+      this.arr.push(undefined);
+    this.ret = ret;
   }
 }
 
@@ -20,10 +21,7 @@ class TreeNode<T, R> {
   The class that represents the Trie, or Prefix Tree. It is a generic class that
   is supposed to recieve two different types.
 
-  @param <T> The type of the object you want to store. As Tries usually work
-  well with collections of data, it will work with arrays of objects of type T,
-  but here you have to pass the type of a single T object.
-
+  @param <T> The type of the object you want to store.
   @param <R> The type of return if an object is found. For example, if you are
   creating a dictionary of english words, this could be a string with the word
   definition. If it is just an ortographic corrector, it could be a boolean to
@@ -39,7 +37,7 @@ export class Trie<T, R> {
     @param {options} number The number of options each node of the tree will
     have. For example, if you are storing words, the number of options will be
     the number of characters available to compose the word. If you consider just
-    lower case characters from the english alphabet, this would be 26.
+    lowercase characters from the english alphabet, this would be 26.
 
     @param {func} ((obj: T) => number) A function that directly
     maps each object with an index. If we keep the example of the dictionary,
@@ -63,5 +61,22 @@ export class Trie<T, R> {
   */
   getSize() {
     return this.size;
+  }
+
+  /**
+    @param {obj} T Object you want to store in the Trie.
+    @param {ret} R The value you want to return when the object is found.
+  */
+  insert(obj: T[], ret: R) {
+    let curNode = this.root;
+    for (let element of obj) {
+      let index = this.mapFunction(element);
+      if (curNode.arr[index])
+        curNode = curNode.arr[index];
+      else
+        curNode.arr[index] = new TreeNode(this.options);
+    }
+    curNode.ret = ret;
+    ++this.size;
   }
 }
