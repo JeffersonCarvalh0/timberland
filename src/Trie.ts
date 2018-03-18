@@ -18,8 +18,8 @@ class TreeNode<R> {
 }
 
 /**
-  The class that represents the Trie, or Prefix Tree. It is a generic class that
-  is supposed to recieve two different types.
+  The class that represents the Trie, also known as Prefix Tree. It is a generic
+   class that is supposed to recieve two different types.
 
   @param <T> The type of the object you want to store.
   @param <R> The type of return if an object is found. For example, if you are
@@ -64,19 +64,35 @@ export class Trie<T, R> {
   }
 
   /**
-    @param {obj} T Object you want to store in the Trie.
+    @param {obj} T[] Object you want to store in the Trie.
     @param {ret} R The value you want to return when the object is found.
   */
   insert(obj: T[], ret: R) {
     let curNode = this.root;
     for (let element of obj) {
       let index = this.mapFunction(element);
-      if (curNode.arr[index])
-        curNode = curNode.arr[index];
-      else
+      if (!curNode.arr[index])
         curNode.arr[index] = new TreeNode(this.options);
+      curNode = curNode.arr[index];
     }
     curNode.ret = ret;
     ++this.size;
+  }
+
+  /**
+    @param {obj} T[] The object you want to find in the Trie.
+    @returns The value that was stored in insertion if the object was inserted;
+    undefined otherwise.
+  */
+  find(obj: T[]): R | undefined {
+    let curNode = this.root;
+    for (let element of obj) {
+      let index = this.mapFunction(element);
+      if (curNode.arr[index])
+        curNode = curNode.arr[index];
+      else
+        return undefined;
+    }
+    return curNode.ret;
   }
 }
