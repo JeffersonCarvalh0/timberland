@@ -1,7 +1,7 @@
 import { NodeData } from "./NodeData";
 
 /**
-  A node used in the Binary Search Tree.
+  A node used in the [[BinarySearchTree]] class.
   Be careful when manually editing the values of a node, because they can lead
   to undefined behavior in the internal functions of the [[BinarySearchTree]]
   class.
