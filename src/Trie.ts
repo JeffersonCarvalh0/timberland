@@ -1,7 +1,7 @@
 class TreeNode<R> {
   arr: (TreeNode<R> | undefined)[];
   ret: R | undefined;
-  optionsNum: number;
+  childrenNum: number;
 
   /**
     @param {possibilites} number The maximum number of possibilites each node
@@ -13,7 +13,7 @@ class TreeNode<R> {
     for (let i = 0; i < possibilities; ++i)
       this.arr.push(undefined);
     this.ret = ret;
-    this.optionsNum = 0;
+    this.childrenNum = 0;
   }
 }
 
@@ -64,7 +64,7 @@ export class Trie<T, R> {
   */
   private getIndex(obj: T): number {
     let index = this.mapFunction(obj);
-    if (index < 0 || index > this.options)
+    if (index < 0 || index >= this.options)
       return -1; // Modify this later to throw an error
     return index;
   }
@@ -89,7 +89,7 @@ export class Trie<T, R> {
       curNode = <TreeNode<R>>curNode.arr[index];
     }
     curNode.ret = ret;
-    ++curNode.optionsNum;
+    ++curNode.childrenNum;
     ++this.size;
   }
 
@@ -110,25 +110,53 @@ export class Trie<T, R> {
     return curNode.ret;
   }
 
-  // /**
-  //   @param {T[]} obj The object to be removed
-  //   @returns true if the object was found and removed, false otherwise
-  // */
-  // remove(obj: T[]): boolean {
-  //   let pairs: [TreeNode<R>, TreeNode<R>][] = [];
-  //   let parent = this.root;
-  //   let child: TreeNode<R>;
-  //
-  //   for (let element of obj) {
-  //     let index = this.mapFunction(element);
-  //     if (!parent.arr[index])
-  //       return false;
-  //     else {
-  //       child = <TreeNode<R>>parent.arr[index];
-  //       pairs.push([parent, child]);
-  //       parent = child;
-  //     }
-  //   }
-  //
-  // }
+  /**
+    @param {T[]} obj The object to be removed
+    @returns true if the object was found and removed, false otherwise
+  */
+  remove(obj: T[]): boolean {
+    let pairs: [TreeNode<R>, TreeNode<R>, number][] = [];
+    let parent = this.root;
+    let child: TreeNode<R>;
+
+    for (let element of obj) {
+      let index = this.mapFunction(element);
+      if (!parent.arr[index])
+        return false;
+      else {
+        child = <TreeNode<R>>parent.arr[index];
+        pairs.push([parent, child, index]);
+        parent = child;
+      }
+    }
+    parent = pairs[pairs.length - 1][0];
+    child = pairs[pairs.length - 1][1];
+    let index = pairs[pairs.length - 1][2];
+
+    if (child.childrenNum > 0) { // If there are elements after this node
+      child.ret = undefined;
+      --this.size;
+      return true;
+    }
+
+    // If there aren't, exclude the node...
+    parent.arr[index] = undefined;
+    --parent.childrenNum;
+
+    // ...and go to the previous one.
+    for (let i = pairs.length - 2; i >= 0; --i) {
+      parent = pairs[i][0];
+      child = pairs[i][1];
+      index = pairs[i][2];
+
+      // Check if there are other children or if it is another element
+      if (child.childrenNum > 0 || child.ret)
+        return true;
+      else {
+        parent.arr[index] = undefined;
+        --parent.childrenNum;
+      }
+    }
+    return true;
+  }
 }
