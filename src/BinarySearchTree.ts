@@ -1,25 +1,27 @@
-/**
-    This module contains a class to represent a Binary Search Tree.
-  It supports both repeated and non repeated elements: you can set this
-  constraint when creating a new tree object.
-    An important thing to know is that the types you want to use in the tree
-  must implement the [[NodeData]] interface. Otherwise, the tree won't
-  work accordingly.
-  @preferred
-*/
-
 import { NodeData } from "./NodeData";
 
 /**
-  A node used in the tree.
-  @hidden
+  A node used in the Binary Search Tree.
 */
-class TreeNode<T> {
+export class BSTNode<T> {
+  /** The data stored in the node. */
   data: T & NodeData<T>;
-  amount: number;
-  left: TreeNode<T> | undefined;
-  right: TreeNode<T> | undefined;
 
+  /** The number of copies of that data that are stored in the node. This
+  should not be > 1 if you don't want repeated elements. */
+  amount: number;
+
+  /** A reference to the left node. Its data value should be lesser than this
+  node's value. */
+  left: BSTNode<T> | undefined;
+
+  /** A reference to the right node. Its data value should be higher than this
+  node's value. */
+  right: BSTNode<T> | undefined;
+
+  /**
+    @param {T} data The data to be stored in the object.
+  */
   constructor(data: T) {
     this.data = data;
     this.amount = 1;
@@ -27,18 +29,28 @@ class TreeNode<T> {
     this.right = undefined;
   }
 
-  /** Checks whether an equals function exists in the object. If it doesnt,
-  tries to use === operator to perform equality check instead. */
-  equals(obj: TreeNode<T>): boolean {
+  /**
+    Checks whether an equals function exists in the object. If it doesnt,
+    tries to use === operator to perform equality check instead.
+
+    @param {BSTNode<T>} obj The node containing the value you want to compare.
+    @returns true if they are equal, false otherwise.
+  */
+  equals(obj: BSTNode<T>): boolean {
     if (this.data.equals)
       return <boolean>this.data.equals(obj.data);
     else
       return this.data === obj.data;
   }
 
-  /** Checks whether an greaterThan function exists in the object. If it doesnt,
-  tries to use > operator to check if this.data is greater than obj.data */
-  greaterThan(obj: TreeNode<T>): boolean {
+  /**
+    Checks whether an greaterThan function exists in the object. If it doesnt,
+    tries to use > operator to check if this.data is greater than obj.data.
+
+    @param {BSTNode<T>} obj The node containing the value you want to compare.
+    @returns true if this value > obj's data, false otherwise.
+  */
+  greaterThan(obj: BSTNode<T>): boolean {
     if (this.data.greaterThan)
       return <boolean>this.data.greaterThan(obj.data);
     else
@@ -50,7 +62,7 @@ class TreeNode<T> {
 support user defined types. However, in order to the class work properly, it
 is necessary that the given type implements the [[NodeData]] interface. */
 export class BinarySearchTree<T> {
-  private root: TreeNode<T> | undefined;
+  private root: BSTNode<T> | undefined;
   private size: number;
   private repeated: boolean;
 
@@ -61,6 +73,15 @@ export class BinarySearchTree<T> {
     this.root = undefined;
     this.size = 0;
     this.repeated = repeated;
+  }
+
+  /**
+    This function will return the root of the Binary Search Tree.
+    Use it if you want to perform custom operations in the tree.
+    @returns a [[BSTNode]].
+  */
+  getRoot(): BSTNode<T> | undefined {
+    return this.root;
   }
 
   /**
@@ -95,7 +116,7 @@ export class BinarySearchTree<T> {
     A generator that yields the elements of the tree in order.
   */
   valuesGen() {
-    function *helper(curNode: TreeNode<T> | undefined): any {
+    function *helper(curNode: BSTNode<T> | undefined): any {
       if (curNode) {
         yield *helper(curNode.left);
         for (let i = 0; i < curNode.amount; ++i)
@@ -142,7 +163,7 @@ export class BinarySearchTree<T> {
     @returns true if the element was successfully stored, false otherwise.
   */
   insert(value: T): boolean {
-    let newNode = new TreeNode<T>(value);
+    let newNode = new BSTNode<T>(value);
 
     if (!this.root) {
       this.root = newNode;
@@ -176,9 +197,9 @@ export class BinarySearchTree<T> {
   }
 
   private findRef(value: T) {
-    let seekedValue = new TreeNode(value);
+    let seekedValue = new BSTNode(value);
     let curNode = this.root;
-    let curParent: TreeNode<T> | undefined;
+    let curParent: BSTNode<T> | undefined;
     curParent = undefined;
 
     while (curNode) {
@@ -209,8 +230,8 @@ export class BinarySearchTree<T> {
     @returns true if the value was found and removed, false otherwise.
   */
   remove(value: T): boolean {
-    let curNode: TreeNode<T> | undefined;
-    let parent: TreeNode<T> | undefined;
+    let curNode: BSTNode<T> | undefined;
+    let parent: BSTNode<T> | undefined;
     [curNode, parent] = this.findRef(value);
 
     if (!curNode && !parent)
