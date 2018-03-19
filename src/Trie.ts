@@ -16,9 +16,9 @@ export class TrieNode<R> {
   childrenNum: number;
 
   /**
-    @param {possibilites} number The maximum number of possibilites each node
+    @param {number} possibilites The maximum number of possibilites each node
     can have
-    @param {ret} (R | undefined) The return value of that node
+    @param {R | undefined} ret The return value of that node
   */
   constructor(possibilities: number, ret: (R | undefined) = undefined) {
     this.children = [];
@@ -74,7 +74,7 @@ export class Trie<T, R> {
     @returns a [[TrieNode]].
   */
   getRoot(): TrieNode<R> {
-
+    return this.root;
   }
 
   /**
