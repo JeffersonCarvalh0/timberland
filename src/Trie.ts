@@ -1,6 +1,18 @@
-class TreeNode<R> {
-  arr: (TreeNode<R> | undefined)[];
+/**
+  The class that represents the nodes that are stored in the [[Trie]] class.
+*/
+export class TrieNode<R> {
+  /** The array that stores the next possible children. Each position of this
+  array represents a possible node. If there is a children there, another TrieNode
+  whill be stored in that position. If there isn't, the value is set to undefined.*/
+  children: (TrieNode<R> | undefined)[];
+
+  /** The return value of the node. This is what tells if this node represents
+  an element stored in the Trie or not. If it is an element, it will store some
+  value of type R to be returned. If it's not, this value is set to undefined. */
   ret: R | undefined;
+
+  /** The amount of children stored in the node. */
   childrenNum: number;
 
   /**
@@ -9,9 +21,9 @@ class TreeNode<R> {
     @param {ret} (R | undefined) The return value of that node
   */
   constructor(possibilities: number, ret: (R | undefined) = undefined) {
-    this.arr = [];
+    this.children = [];
     for (let i = 0; i < possibilities; ++i)
-      this.arr.push(undefined);
+      this.children.push(undefined);
     this.ret = ret;
     this.childrenNum = 0;
   }
@@ -30,7 +42,7 @@ class TreeNode<R> {
 export class Trie<T, R> {
   private options: number;
   private size: number;
-  private root: TreeNode<R>;
+  private root: TrieNode<R>;
   private mapFunction: (obj: T) => number;
 
   /**
@@ -52,8 +64,17 @@ export class Trie<T, R> {
   constructor(options: number, func: (obj: T) => number) {
     this.options = options;
     this.size = 0;
-    this.root = new TreeNode<R>(options);
+    this.root = new TrieNode<R>(options);
     this.mapFunction = func;
+  }
+
+  /**
+    This function will return the root of the Trie. Use it if you want to perform
+    custom operations in the Trie.
+    @returns a [[TrieNode]].
+  */
+  getRoot(): TrieNode<R> {
+
   }
 
   /**
@@ -84,9 +105,9 @@ export class Trie<T, R> {
     let curNode = this.root;
     for (let element of obj) {
       let index = this.getIndex(element);
-      if (!curNode.arr[index])
-        curNode.arr[index] = new TreeNode(this.options);
-      curNode = <TreeNode<R>>curNode.arr[index];
+      if (!curNode.children[index])
+        curNode.children[index] = new TrieNode(this.options);
+      curNode = <TrieNode<R>>curNode.children[index];
     }
     curNode.ret = ret;
     ++curNode.childrenNum;
@@ -102,8 +123,8 @@ export class Trie<T, R> {
     let curNode = this.root;
     for (let element of obj) {
       let index = this.getIndex(element);
-      if (curNode.arr[index])
-        curNode = <TreeNode<R>>curNode.arr[index];
+      if (curNode.children[index])
+        curNode = <TrieNode<R>>curNode.children[index];
       else
         return undefined;
     }
@@ -115,16 +136,16 @@ export class Trie<T, R> {
     @returns true if the object was found and removed, false otherwise
   */
   remove(obj: T[]): boolean {
-    let pairs: [TreeNode<R>, TreeNode<R>, number][] = [];
+    let pairs: [TrieNode<R>, TrieNode<R>, number][] = [];
     let parent = this.root;
-    let child: TreeNode<R>;
+    let child: TrieNode<R>;
 
     for (let element of obj) {
       let index = this.mapFunction(element);
-      if (!parent.arr[index])
+      if (!parent.children[index])
         return false;
       else {
-        child = <TreeNode<R>>parent.arr[index];
+        child = <TrieNode<R>>parent.children[index];
         pairs.push([parent, child, index]);
         parent = child;
       }
@@ -140,7 +161,7 @@ export class Trie<T, R> {
     }
 
     // If there aren't, exclude the node...
-    parent.arr[index] = undefined;
+    parent.children[index] = undefined;
     --parent.childrenNum;
 
     // ...and go to the previous one.
@@ -153,7 +174,7 @@ export class Trie<T, R> {
       if (child.childrenNum > 0 || child.ret)
         return true;
       else {
-        parent.arr[index] = undefined;
+        parent.children[index] = undefined;
         --parent.childrenNum;
       }
     }
