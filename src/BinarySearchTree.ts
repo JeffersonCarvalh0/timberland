@@ -2,6 +2,9 @@ import { NodeData } from "./NodeData";
 
 /**
   A node used in the Binary Search Tree.
+  Be careful when manually editing the values of a node, because they can lead
+  to undefined behavior in the internal functions of the [[BinarySearchTree]]
+  class.
 */
 export class BSTNode<T> {
   /** The data stored in the node. */
@@ -162,8 +165,8 @@ export class BinarySearchTree<T> {
     @param {T} value The value to be stored in the tree.
     @returns true if the element was successfully stored, false otherwise.
   */
-  insert(value: T): boolean {
-    let newNode = new BSTNode<T>(value);
+  insert(value: T | BSTNode<T>): boolean {
+    let newNode = (value instanceof BSTNode) ? value : new BSTNode<T>(value);
 
     if (!this.root) {
       this.root = newNode;
