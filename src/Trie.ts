@@ -1,5 +1,8 @@
 /**
   The class that represents the nodes that are stored in the [[Trie]] class.
+  Be careful when manually editing the values of a node, because they can lead
+  to undefined behavior in the internal functions of the [[Trie]]
+  class.
 */
 export class TrieNode<R> {
   /** The array that stores the next possible children. Each position of this
