@@ -1,8 +1,7 @@
-import { NodeData } from "./NodeData";
-
 class TreeNode<R> {
   arr: (TreeNode<R> | undefined)[];
   ret: R | undefined;
+  optionsNum: number;
 
   /**
     @param {possibilites} number The maximum number of possibilites each node
@@ -14,6 +13,7 @@ class TreeNode<R> {
     for (let i = 0; i < possibilities; ++i)
       this.arr.push(undefined);
     this.ret = ret;
+    this.optionsNum = 0;
   }
 }
 
@@ -57,6 +57,19 @@ export class Trie<T, R> {
   }
 
   /**
+    Gets the index from the mapFunction provided by the user. Then, it checks
+    if it is a valid index.
+    @param {T} obj The object being searched
+    @returns The object's index or -1
+  */
+  private getIndex(obj: T): number {
+    let index = this.mapFunction(obj);
+    if (index < 0 || index > this.options)
+      return -1; // Modify this later to throw an error
+    return index;
+  }
+
+  /**
     @returns The number of elements stored in the tree.
   */
   getSize() {
@@ -70,12 +83,13 @@ export class Trie<T, R> {
   insert(obj: T[], ret: R) {
     let curNode = this.root;
     for (let element of obj) {
-      let index = this.mapFunction(element);
+      let index = this.getIndex(element);
       if (!curNode.arr[index])
         curNode.arr[index] = new TreeNode(this.options);
       curNode = <TreeNode<R>>curNode.arr[index];
     }
     curNode.ret = ret;
+    ++curNode.optionsNum;
     ++this.size;
   }
 
@@ -87,7 +101,7 @@ export class Trie<T, R> {
   find(obj: T[]): R | undefined {
     let curNode = this.root;
     for (let element of obj) {
-      let index = this.mapFunction(element);
+      let index = this.getIndex(element);
       if (curNode.arr[index])
         curNode = <TreeNode<R>>curNode.arr[index];
       else
@@ -95,4 +109,26 @@ export class Trie<T, R> {
     }
     return curNode.ret;
   }
+
+  // /**
+  //   @param {T[]} obj The object to be removed
+  //   @returns true if the object was found and removed, false otherwise
+  // */
+  // remove(obj: T[]): boolean {
+  //   let pairs: [TreeNode<R>, TreeNode<R>][] = [];
+  //   let parent = this.root;
+  //   let child: TreeNode<R>;
+  //
+  //   for (let element of obj) {
+  //     let index = this.mapFunction(element);
+  //     if (!parent.arr[index])
+  //       return false;
+  //     else {
+  //       child = <TreeNode<R>>parent.arr[index];
+  //       pairs.push([parent, child]);
+  //       parent = child;
+  //     }
+  //   }
+  //
+  // }
 }
