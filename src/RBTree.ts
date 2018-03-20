@@ -73,5 +73,26 @@ that they can be inserted, removed and found in an efficient way.
   Notice that the elements to be stored in this structure need to implement the
 [[NodeData]] interface, otherwise the tree's internal functions won't work. */
 export class RBTree<T> {
+  private root: RBNode<T> | undefined;
+  private size: number;
+  private repeated: boolean;
 
+  /**
+    @param {boolean} repeated  Set it to true if you want the structure to allow
+    repeated elements, false otherwise
+  */
+  constructor(repeated = false) {
+    this.root = undefined;
+    this.size = 0;
+    this.repeated = repeated;
+  }
+
+  /**
+    This function will return the root of the Red Black Tree.
+    Use it if you want to perform custom operations in the tree.
+    @returns a [[RBNode]]
+  */
+  getRoot(): RBNode<T> | undefined {
+    return this.root;
+  }
 }
