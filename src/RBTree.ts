@@ -90,9 +90,26 @@ export class RBTree<T> {
   /**
     This function will return the root of the Red Black Tree.
     Use it if you want to perform custom operations in the tree.
-    @returns a [[RBNode]] if the tree has elements
+
+    @returns a [[RBNode]] if the a root node exists, undefined if the tree is
+    empty.
   */
   getRoot(): RBNode<T> | undefined {
     return this.root;
   }
+
+  /**
+    @returns the number of elements stored in the tree.
+  */
+  getSize(): number {
+    return this.size;
+  }
+
+  // /**
+  //   @param {T | RBNode<T>} obj The value or node to be stored.
+  //   @returns true if obj was successfully stored, false otherwise
+  // */
+  // insert(obj: T | RBNode<T>): boolean {
+  //
+  // }
 }
