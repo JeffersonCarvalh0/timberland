@@ -81,7 +81,9 @@ export class BinarySearchTree<T> {
   /**
     This function will return the root of the Binary Search Tree.
     Use it if you want to perform custom operations in the tree.
-    @returns a [[BSTNode]].
+
+    @returns a [[BSTNode]] if the a root node exists, undefined if the tree is
+    empty.
   */
   getRoot(): BSTNode<T> | undefined {
     return this.root;
