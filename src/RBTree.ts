@@ -90,7 +90,7 @@ export class RBTree<T> {
   /**
     This function will return the root of the Red Black Tree.
     Use it if you want to perform custom operations in the tree.
-    @returns a [[RBNode]]
+    @returns a [[RBNode]] if the tree has elements
   */
   getRoot(): RBNode<T> | undefined {
     return this.root;

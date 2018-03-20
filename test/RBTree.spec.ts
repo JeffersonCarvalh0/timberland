@@ -1,3 +1,3 @@
-import { RBTree } from "../RBTree";
+import { RBTree } from "../src/RBTree";
 import { assert } from "chai";
 import "mocha";
