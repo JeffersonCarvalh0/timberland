@@ -10,6 +10,10 @@ export class RBNode<T> {
   /** The data to be stored in the node. */
   data: T & NodeData<T>;
 
+  /** The number of copies of that data that are stored in the node. This
+  should not be > 1 if you don't want repeated elements. */
+  amount: number;
+
   /** The color of the node. I can be either 'Red' or 'Black' according to
   the Enum [[Colors]] */
   color: Colors;
@@ -34,6 +38,7 @@ export class RBNode<T> {
     this.data = data;
     this.color = color;
     this.parent = parent;
+    this.amount = 1;
     this.left = undefined;
     this.right = undefined;
   }
