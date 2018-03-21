@@ -151,6 +151,25 @@ export class RBTree<T> {
     return true;
   }
 
+  /** Function used for rotations when necessary to balance the tree */
+  private leftRotate(parent: RBNode<T>) {
+    let child = parent.right;
+
+    if (child) {
+      parent.right = child.left;
+      if (child.left)
+        child.left.parent = parent;
+      child.parent = parent.parent;
+      if (!parent.parent)
+        this.root = child;
+      else if (parent == parent.parent.left) {
+          parent.parent.left = child;
+      } else if (parent == parent.parent.right) {
+          parent.parent.right = child;
+      }
+    }
+  }
+
   // /** Function that is called after a node insertion in order to mantain the
   // Red Black Tree properties */
   // private fixUp(newNode: RBNode<T>) {
