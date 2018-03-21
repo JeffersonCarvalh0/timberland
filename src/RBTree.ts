@@ -110,11 +110,50 @@ export class RBTree<T> {
     return this.size;
   }
 
-  // /**
-  //   @param {T | RBNode<T>} obj The value or node to be stored.
-  //   @returns true if obj was successfully stored, false otherwise
-  // */
-  // insert(obj: T | RBNode<T>): boolean {
+  /**
+    @param {T | RBNode<T>} obj The value or node to be stored.
+    @returns true if obj was successfully stored, false otherwise
+  */
+  insert(obj: T | RBNode<T>): boolean {
+    let newNode = (obj instanceof RBNode) ? obj : new RBNode<T>(obj, Colors.Red); // The color is red
+
+    if (!this.root) {
+      this.root = newNode;
+    } else {
+      let currentNode = this.root;
+      while (true) {
+        if (newNode.greaterThan(currentNode)) {
+          if (currentNode.right)
+            currentNode = currentNode.right;
+          else {
+            currentNode.right = newNode;
+            newNode.parent = currentNode; // Now we have to add the parent
+            break;
+          }
+        } else if (newNode.equals(currentNode) && this.repeated) {
+          ++currentNode.amount;
+          break;
+        } else if(newNode.equals(currentNode) && !this.repeated)  {
+          return false;
+        } else {
+          if (currentNode.left)
+            currentNode = currentNode.left;
+          else {
+            currentNode.left = newNode;
+            newNode.parent = currentNode; // Now we have to add the parent
+            break;
+          }
+        }
+      }
+    }
+    ++this.size;
+    this.fixUp(newNode);
+    return true;
+  }
+
+  // /** Function that is called after a node insertion in order to mantain the
+  // Red Black Tree properties */
+  // private fixUp(newNode: RBNode<T>) {
   //
   // }
 }
