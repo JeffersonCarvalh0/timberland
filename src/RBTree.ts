@@ -162,11 +162,28 @@ export class RBTree<T> {
       child.parent = parent.parent;
       if (!parent.parent)
         this.root = child;
-      else if (parent == parent.parent.left) {
-          parent.parent.left = child;
-      } else if (parent == parent.parent.right) {
-          parent.parent.right = child;
-      }
+      else if (parent == parent.parent.left)
+        parent.parent.left = child;
+      else if (parent == parent.parent.right)
+        parent.parent.right = child;
+    }
+  }
+
+  /** Function used for rotations when necessary to balance the tree */
+  private rightRotate(parent: RBNode<T>) {
+    let child = parent.left;
+
+    if (child) {
+      parent.left = child.right;
+      if (child.right)
+        child.right.parent = parent;
+      child.parent = parent.parent;
+      if (!parent.parent)
+        this.root = child;
+      else if (parent == parent.parent.left)
+        parent.parent.left = child;
+      else if (parent == parent.parent.right)
+        parent.parent.right = child;
     }
   }
 
