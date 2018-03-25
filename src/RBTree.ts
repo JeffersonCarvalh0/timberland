@@ -221,5 +221,6 @@ export class RBTree<T> {
         this.leftRotate(curNode!.parent!.parent!);
       }
     }
+    this.root!.color = Colors.Black;
   }
 }
