@@ -3,7 +3,7 @@ import { assert } from "chai";
 import "mocha";
 
 describe('Testing RBTree class', function() {
-  let tree = new RBTree(false);
+  let tree = new RBTree(true);
   let nonRepTree = new RBTree();
 
   describe('constructor', function() {
