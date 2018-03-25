@@ -187,9 +187,39 @@ export class RBTree<T> {
     }
   }
 
-  // /** Function that is called after a node insertion in order to mantain the
-  // Red Black Tree properties */
-  // private fixUp(newNode: RBNode<T>) {
-  //
-  // }
+  /** Function that is called after a node insertion in order to mantain the
+  Red Black Tree properties */
+  private fixUp(curNode: RBNode<T>) {
+    while (curNode.parent && curNode.parent.color === Colors.Red) {
+      if (curNode.parent.parent && curNode.parent === curNode.parent.parent.left) {
+        let uncle = curNode.parent.parent.right;
+        if (uncle && uncle.color === Colors.Red) {
+          curNode.parent.color = Colors.Black;
+          uncle.color = Colors.Black;
+          curNode.parent.parent.color = Colors.Red;
+          curNode = curNode.parent.parent;
+        } else if (curNode === curNode.parent.right) {
+          curNode = curNode.parent;
+          this.leftRotate(curNode);
+        }
+        curNode.parent!.color = Colors.Black;
+        curNode.parent!.parent!.color = Colors.Red;
+        this.rightRotate(curNode!.parent!.parent!);
+      } else if (curNode.parent.parent && curNode.parent === curNode.parent.parent.right){
+        let uncle = curNode.parent.parent.left;
+        if (uncle && uncle.color === Colors.Red) {
+          curNode.parent.color = Colors.Black;
+          uncle.color = Colors.Black;
+          curNode.parent.parent.color = Colors.Red;
+          curNode = curNode.parent.parent;
+        } else if (curNode === curNode.parent.left) {
+          curNode = curNode.parent;
+          this.rightRotate(curNode);
+        }
+        curNode.parent!.color = Colors.Black;
+        curNode.parent!.parent!.color = Colors.Red;
+        this.leftRotate(curNode!.parent!.parent!);
+      }
+    }
+  }
 }
