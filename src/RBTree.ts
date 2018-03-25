@@ -223,4 +223,39 @@ export class RBTree<T> {
     }
     this.root!.color = Colors.Black;
   }
+
+  /** Auxiliary function to find the reference of an element by its data */
+  private findRef(value: T): RBNode<T> | undefined {
+    let seekedValue = new RBNode(value, Colors.Red);
+    let curNode = this.root;
+
+    while (curNode) {
+      if (seekedValue.equals(curNode))
+        return curNode;
+      else {
+        if (seekedValue.greaterThan(curNode))
+          curNode = curNode.right;
+        else
+          curNode = curNode.left;
+      }
+    }
+    return undefined;
+  }
+
+  /**
+    @param {T} value The value you want to be found
+    @returns true if the value is in the tree, false otherwise.
+  */
+  find(value: T): boolean {
+    return (this.findRef(value)) ? true : false;
+  }
+
+  /**
+    @param {T} value The value that you want to count in the tree.
+    @returns The number of elements that match that value.
+  */
+  count(value: T): number {
+    let element = this.findRef(value);
+    return (element) ? element.amount : 0;
+  }
 }
