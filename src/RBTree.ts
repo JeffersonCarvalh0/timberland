@@ -258,4 +258,50 @@ export class RBTree<T> {
     let element = this.findRef(value);
     return (element) ? element.amount : 0;
   }
+
+  /**
+    A generator that yields the elements of the tree in order.
+  */
+  valuesGen() {
+    function *helper(curNode: RBNode<T> | undefined): any {
+      if (curNode) {
+        yield *helper(curNode.left);
+        for (let i = 0; i < curNode.amount; ++i)
+          yield curNode.data;
+        yield *helper(curNode.right);
+      }
+    }
+    return helper(this.root);
+  }
+
+  /**
+    @returns an array of elements stored in the tree in increasing order. It's
+    done by implementing Morris Inorder Tree Traversal Algorithm.
+  */
+  valuesList(): T[] {
+    let values = [];
+    let curNode = this.root;
+
+    while (curNode) {
+      if (!curNode.left) {
+        for (let i = 0; i < curNode.amount; ++i)
+          values.push(curNode.data);
+        curNode = curNode.right;
+      } else {
+        let pre = curNode.left;
+        while (pre.right && pre.right !== curNode)
+          pre = pre.right;
+        if (pre.right == curNode) {
+          for (let i = 0; i < curNode.amount; ++i)
+            values.push(curNode.data);
+          pre.right = undefined;
+          curNode = curNode.right;
+        } else {
+          pre.right = curNode;
+          curNode = curNode.left;
+        }
+      }
+    }
+    return values;
+  }
 }
