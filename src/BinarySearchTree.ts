@@ -81,7 +81,9 @@ export class BinarySearchTree<T> {
   /**
     This function will return the root of the Binary Search Tree.
     Use it if you want to perform custom operations in the tree.
-    @returns a [[BSTNode]].
+
+    @returns a [[BSTNode]] if the a root node exists, undefined if the tree is
+    empty.
   */
   getRoot(): BSTNode<T> | undefined {
     return this.root;
@@ -245,15 +247,13 @@ export class BinarySearchTree<T> {
         --curNode.amount;
       else if (!curNode.right && !curNode.left) { // The node to be removed has no children
         if (parent) {
-          if (curNode.greaterThan)
-            curNode.greaterThan(parent) ? parent.right = undefined : parent.left = undefined;
+          curNode === parent.right ? parent.right = undefined : parent.left = undefined;
         } else
           this.root = undefined;
       } else if (!curNode.left || !curNode.right) { // The node to be removed has only one child
         let child = curNode.left || curNode.right;
         if (parent) {
-          if (curNode.greaterThan)
-            curNode.greaterThan(parent) ? parent.right = child : parent.left = child;
+          curNode === parent.right ? parent.right = child : parent.left = child;
         } else
           this.root = child;
       } else { // The node to be removed has two children
@@ -275,7 +275,7 @@ export class BinarySearchTree<T> {
         candidate.right = curNode.right;
 
         if (parent)
-          curNode.greaterThan(parent) ? parent.right = candidate : parent.left = candidate;
+          curNode === parent.right ? parent.right = candidate : parent.left = candidate;
         else
           this.root = candidate;
       }
